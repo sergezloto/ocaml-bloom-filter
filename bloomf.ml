@@ -65,7 +65,6 @@ module BitArray: BITARRAY =
 
 module Make(H: HASH)(B: BITARRAY) =
   struct
-    (* module B = BitArray *)
     type t = { 
       capacity:int; 
       bits: B.t; 
