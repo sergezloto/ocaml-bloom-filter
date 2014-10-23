@@ -123,6 +123,9 @@ module Make(H: HASH)(B: BITARRAY) =
 		 false  (* not member, no need to go further *)
       in
       maux bf.nhash
+
+    let reset bf =
+      B.reset bf.bits
   end
 
 (* Provide a default implementation in the current module *)
