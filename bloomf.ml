@@ -66,7 +66,8 @@ module BitArray: BITARRAY =
 module Make(H: HASH)(B: BITARRAY) =
   struct
     type t = { 
-      capacity:int; 
+      capacity: int;
+      error_rate: float;
       bits: B.t; 
       nhash: int;
     }
@@ -92,9 +93,11 @@ module Make(H: HASH)(B: BITARRAY) =
       in (nbits, nhash)
 	   
     let create ?(error_rate = default_error_rate) ~capacity =
+      if capacity < 0 then raise Invalid_capacity;
+      if error_rate < 0. || error_rate > 1. then raise Invalid_error_rate;
       let (nbits, nhash) = space_required capacity error_rate in
       let bits = B.create nbits in
-      { capacity; bits; nhash; }
+      { capacity; error_rate; bits; nhash; }
 
     let hash bf seed elt =
       let h = H.seeded_hash seed elt in
