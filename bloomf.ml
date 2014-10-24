@@ -65,7 +65,7 @@ module BitArray: BITARRAY =
 
 module Make(H: HASH)(B: BITARRAY) =
   struct
-    type t = { 
+    type 'a t = { 
       capacity: int;
       error_rate: float;
       bits: B.t; 
@@ -99,20 +99,20 @@ module Make(H: HASH)(B: BITARRAY) =
       let bits = B.create nbits in
       { capacity; error_rate; bits; nhash; }
 
-    let hash bf seed elt =
+    let hash: 'a t -> int -> 'a -> int = fun bf seed elt ->
       let h = H.seeded_hash seed elt in
       h mod (B.length bf.bits) 
 
-    let add bf elt =
+    let add: 'a t -> 'a -> bool = fun bf elt ->
       (* Hash and store, remember whether it had been stored *)
       let  collision = ref true in   (* assume collision to start with *)
-      for h = 0 to bf.nhash do 
+      for h = 1 to bf.nhash do (* We seed with {1..nhash} *)
 	let i = hash bf h elt in
 	if not (B.set bf.bits i) then collision := false (* wasn't set prior so no collision *)
       done;
       !collision
 
-    let mem bf elt =
+    let mem: 'a t -> 'a -> bool = fun bf elt ->
       (* We seed with {1..nhash}, not with {0..nhash-1} for convenience *)
       let rec maux = function
 	| 0 -> true
