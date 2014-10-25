@@ -16,7 +16,7 @@ utop # add bf "one";;
 - : bool = false
 ```
 
-The filter performance degrades rapidly when its niminal capaciry is exceeded:
+The filter performance degrades rapidly when its nominal capacity is exceeded:
 <img src="errors.png">
 
 -------------------------------------------------------------------------------
