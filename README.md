@@ -21,11 +21,9 @@ The filter performance degrades rapidly when its nominal capacity is exceeded:
 
 -------------------------------------------------------------------------------
 
-The rest is incomplete and subject to large changes..
-
-TODOs, in no particular order:
+Enhancements and TODOs, in no particular order:
 - [ ] make init parameters more flexible
-- [x] ~~provide reset~~. done
+- [x] ~~provide reset~~
 - [ ] make growable
 - [x] ~~add byte array storage~~. done
 - [x] ~~add mapped files storage~~. To be intgrated with simple filter.
@@ -35,4 +33,3 @@ TODOs, in no particular order:
 - [ ] provide statistics
 - [ ] set operations like union, intersection
 - [ ] multilevel hashing to improve locality wrt problem domain
-

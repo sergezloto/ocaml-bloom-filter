@@ -6,3 +6,5 @@ all := all.otarget
 all: 
 	$(ocamlbuild) $(all)
 
+clean:
+	$(ocamlbuild) -clean

@@ -1,3 +1,2 @@
 true:debug
-
-true: package(unix, bigarray)
+true: annot
