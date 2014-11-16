@@ -1,4 +1,4 @@
-module S = Set.Make(struct type t=int let compare a b = if a < b then -1 else if a > b then 1 else 0  end)
+module S = Set.Make(struct type t=int let compare = compare end)
 
 let _ = Random.self_init ()
 let bound = 1_000_000
@@ -31,7 +31,7 @@ let false_neg bf s =
 	 
 let probtest capacity error_rate =
   let testelts = capacity * 2 in
-  let init_param = Bloomf.make_init capacity error_rate in
+  let init_param = Bloomf.init_cap_err capacity error_rate in
   let bf = Bloomf.create init_param in
   (* Add elements, and check error rate *)
   let rec test s = function

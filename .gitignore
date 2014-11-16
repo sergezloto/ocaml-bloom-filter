@@ -1,3 +1,5 @@
+.gitignore
+*.docdir
 *.annot
 *.cmo
 *.cma
@@ -9,14 +11,18 @@
 *.cmxa
 *.byte
 *.native
+
+setup.data
+setup.log
+
 _server
 _client
 *.js
 .depend
 *.type_mli
-*~
-#*#
 _build
 ocsidb
 *.log
+*~
+#*#
 .DS_Store

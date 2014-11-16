@@ -1,2 +1,3 @@
-bloomfilter.cma
-bloomfilter.cmxs
+bloomf_test.byte
+bloomf_test.native
+

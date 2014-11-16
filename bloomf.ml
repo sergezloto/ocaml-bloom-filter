@@ -17,10 +17,11 @@ module type BLOOMF =
 sig
   type 'a t
   type init_param
+
   exception Invalid_capacity
   exception Invalid_error_rate
 
-  val make_init: int -> float -> init_param
+  val init_cap_err: int -> float -> init_param
   val create: init_param -> 'a t
   val add: 'a t -> 'a -> bool
   val mem: 'a t -> 'a -> bool
@@ -97,39 +98,11 @@ struct
   let sqlog2 = log2 *. log2
 
   let default_error_rate = 0.01
-(*
-    let bits_of_capacity ~capacity ~error_rate = 
-      let capacity = float_of_int capacity in
-      let nbits = 
-~-. capacity *. (log error_rate) /. sqlog2 in
-      (* Round hash functions up *)
-      let nhash = int_of_float (ceil (log2 *. nbits /. capacity)) in
-      (* Round nbits to upper byte boundary *)
-      let nbits = ((int_of_float nbits) + 7) / 8 * 8 in (* or lsr 3 lsl 3 *)
-      (capacity, nbits, nhash)
-
-    let capacity_of_bits ~nbits ~error_rate =
-      (* Round nbits to upper byte boundary *)
-      let nbits = ((int_of_float nbits) + 7) / 8 * 8;  (* or lsr 3 lsl 3 *)
-      let fnbits = float_of_int nbits in
-      let fcap = fnbits *. sqlog2 /. (log error_rate) in
-      (* Round hash functions up *)
-      let nhash = int_of_float (ceil (log2 *. fnbits /. fcap)) in
-      let capacity = int_of_float fcap in
-      (capacity, nbits, nhash)
-    let make_init_param ?(error_rate = default_error_rate) ~capacity =
-      if capacity < 0 then raise Invalid_capacity;
-      if error_rate < 0. || error_rate > 1. then raise Invalid_error_rate;
-
-
-    let create ?(error_rate = default_error_rate) ~capacity =
-      let (capacity, nbits, nhash) = space_required capacity error_rate in
-      let bits = B.create nbits in
-      { capacity; error_rate; bits; nhash; }
-    *)
 
   (** Given desired capacity and error rates, return init parameter *)
-  let make_init capacity error_rate =
+  let init_cap_err capacity error_rate =
+    if capacity <= 0 then raise Invalid_capacity;
+    if error_rate <= 0. || error_rate > 1. then raise Invalid_error_rate;
     let fcap = float_of_int capacity in
     let nbits = 
       ~-. fcap *. (log error_rate) /. sqlog2 in
